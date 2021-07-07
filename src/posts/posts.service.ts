@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Blogs } from './blogs.entity';
+import { Posts } from './posts.entity';
 
 @Injectable()
-export class BlogsService {
+export class PostsService {
   constructor(
-    @InjectRepository(Blogs) private blogsRepository: Repository<Blogs>,
+    @InjectRepository(Posts) private postsRepository: Repository<Posts>,
   ) {}
 
   async getById(id) {
-    return await this.blogsRepository.findOne(id);
+    return await this.postsRepository.findOne(id);
   }
 
   async getByUser(userId, limit) {
-    return this.blogsRepository.find({
+    return this.postsRepository.find({
       relations: ['user'],
       loadRelationIds: true,
       take: limit,
@@ -26,7 +26,7 @@ export class BlogsService {
   }
 
   async getLatest(limit) {
-    return this.blogsRepository.find({
+    return this.postsRepository.find({
       relations: ['user'],
       loadRelationIds: true,
       order: {
@@ -37,18 +37,18 @@ export class BlogsService {
   }
 
   async findOne(id) {
-    return this.blogsRepository.findOne(id);
+    return this.postsRepository.findOne(id);
   }
 
   async create(createBlogDto) {
-    return this.blogsRepository.save(createBlogDto);
+    return this.postsRepository.save(createBlogDto);
   }
 
   async update(id, updateData) {
-    return this.blogsRepository.update(id, updateData);
+    return this.postsRepository.update(id, updateData);
   }
 
   async delete(id) {
-    return this.blogsRepository.delete(id);
+    return this.postsRepository.delete(id);
   }
 }

@@ -11,24 +11,23 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { BlogsService } from './blogs.service';
-import { CreateBlogDto } from './dto/create-blog.dto';
+import { PostsService } from './posts.service';
+import { CreateBlogDto } from './dto/create-post.dto';
 
-@Controller('blogs')
-export class BlogsController {
-  constructor(private readonly blogsService: BlogsService) {}
+@Controller('posts')
+export class PostsController {
+  constructor(private readonly postsService: PostsService) {}
 
   @Get()
   getLatest(@Query() query): string | Promise<any> {
-    console.log(process.env.MSG);
     const limit = query.limit || 15;
-    return this.blogsService.getLatest(limit);
+    return this.postsService.getLatest(limit);
   }
 
   @Get(':id')
   getById(@Param() params): Promise<any> {
     const { id } = params;
-    return this.blogsService.getById(id);
+    return this.postsService.getById(id);
   }
 
   @Get('user/:userId')
@@ -36,7 +35,7 @@ export class BlogsController {
     const { userId } = params;
     const limit = query.limit || 10;
 
-    return this.blogsService.getByUser(userId, limit);
+    return this.postsService.getByUser(userId, limit);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -50,7 +49,7 @@ export class BlogsController {
       user: userId,
     };
 
-    return this.blogsService.create(createBlogDto);
+    return this.postsService.create(createBlogDto);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -59,7 +58,7 @@ export class BlogsController {
     const { id } = params;
     const { updateData } = body;
 
-    return this.blogsService.update(id, updateData);
+    return this.postsService.update(id, updateData);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -67,6 +66,6 @@ export class BlogsController {
   delete(@Param() params) {
     const { id } = params;
 
-    return this.blogsService.delete(id);
+    return this.postsService.delete(id);
   }
 }
