@@ -33,7 +33,6 @@ export class BlogsController {
 
   @Get('user/:userId')
   getByUser(@Query() query, @Param() params): Promise<any> {
-    console.log('User request triggered');
     const { userId } = params;
     const limit = query.limit || 10;
 
