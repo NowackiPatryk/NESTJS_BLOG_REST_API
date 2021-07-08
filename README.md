@@ -1,5 +1,5 @@
-###Work in progress
-##Frontend part: https://github.com/NowackiPatryk/VUE_BLOG_FRONTEND
+### Work in progress
+## Frontend part: https://github.com/NowackiPatryk/VUE_BLOG_FRONTEND
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
