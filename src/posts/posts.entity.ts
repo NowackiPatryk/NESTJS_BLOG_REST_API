@@ -5,6 +5,8 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   ManyToOne,
+  JoinColumn,
+  JoinTable,
 } from 'typeorm';
 
 @Entity()
@@ -18,7 +20,7 @@ export class Posts {
   @Column()
   content: string;
 
-  @ManyToOne((type) => Users, (users) => users.id)
+  @ManyToOne(() => Users)
   user: Users;
 
   @CreateDateColumn()

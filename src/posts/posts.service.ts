@@ -10,34 +10,31 @@ export class PostsService {
   ) {}
 
   async getById(id) {
-    return await this.postsRepository.findOne(id);
+    return this.postsRepository
+      .createQueryBuilder('post')
+      .leftJoin('post.user', 'user')
+      .addSelect(['user.id', 'user.username'])
+      .where('post.id = :id', { id })
+      .getOne();
   }
 
   async getByUser(userId, limit) {
-    return this.postsRepository.find({
-      relations: ['user'],
-      loadRelationIds: true,
-      take: limit,
-      where: `userId=${userId}`,
-      order: {
-        created_at: 'DESC',
-      },
-    });
+    return this.postsRepository
+      .createQueryBuilder('post')
+      .limit(limit)
+      .leftJoin('post.user', 'user')
+      .addSelect(['user.id', 'user.username'])
+      .where('post.userId = :userId', { userId })
+      .getMany();
   }
 
-  async getLatest(limit) {
-    return this.postsRepository.find({
-      relations: ['user'],
-      loadRelationIds: true,
-      order: {
-        created_at: 'DESC',
-      },
-      take: limit,
-    });
-  }
-
-  async findOne(id) {
-    return this.postsRepository.findOne(id);
+  async getLatest(limit = 10) {
+    return this.postsRepository
+      .createQueryBuilder('post')
+      .limit(limit)
+      .leftJoin('post.user', 'user')
+      .addSelect(['user.id', 'user.username'])
+      .getMany();
   }
 
   async create(createBlogDto) {
