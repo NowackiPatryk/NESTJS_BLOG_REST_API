@@ -18,7 +18,7 @@ export class PostsService {
       .getOne();
   }
 
-  async getByUser(userId, limit) {
+  async getByUser(userId, limit = 10) {
     return this.postsRepository
       .createQueryBuilder('post')
       .limit(limit)
