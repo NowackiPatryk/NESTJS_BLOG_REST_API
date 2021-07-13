@@ -5,8 +5,6 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn,
-  JoinTable,
 } from 'typeorm';
 
 @Entity()
