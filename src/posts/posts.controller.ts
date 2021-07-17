@@ -9,6 +9,7 @@ import {
   Body,
   Request,
   UseGuards,
+  ConflictException,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { PostsService } from './posts.service';
@@ -60,11 +61,17 @@ export class PostsController {
 
   @UseGuards(JwtAuthGuard)
   @Put('/:id')
-  update(@Param() params, @Body() body) {
+  async update(@Param() params, @Body() body, @Request() req) {
     const { id } = params;
     const { updateData } = body;
+    const { userId } = req.user;
+    const post = await this.postsService.getById(id);
 
-    return this.postsService.update(id, updateData);
+    if (post && post.user.id === userId) {
+      return this.postsService.update(id, updateData);
+    } else {
+      throw new ConflictException('This user have no permissions');
+    }
   }
 
   @UseGuards(JwtAuthGuard)
