@@ -18,6 +18,12 @@ import { CreateBlogDto } from './dto/create-post.dto';
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  @Get('search')
+  getBySearchTerm(@Query() query): Promise<any> {
+    const { search } = query;
+    return this.postsService.getBySearchTerm(search);
+  }
+
   @Get()
   getLatest(@Query() query): string | Promise<any> {
     const limit = query.limit || 15;

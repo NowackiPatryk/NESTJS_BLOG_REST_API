@@ -9,6 +9,15 @@ export class PostsService {
     @InjectRepository(Posts) private postsRepository: Repository<Posts>,
   ) {}
 
+  async getBySearchTerm(searchTerm: string) {
+    return this.postsRepository
+      .createQueryBuilder('post')
+      .leftJoin('post.user', 'user')
+      .addSelect(['user.id', 'user.username'])
+      .where(`post.title like '%${searchTerm}%'`)
+      .getMany();
+  }
+
   async getById(id) {
     return this.postsRepository
       .createQueryBuilder('post')
